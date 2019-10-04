@@ -11,6 +11,21 @@ from utils import *
 import tensorflow as tf
 
 
+class KipfGCN(torch.nn.Module):
+	def __init__(self, data, num_class, params):
+		super(KipfGCN, self).__init__()
+		self.p     = params
+		self.data  = data
+		self.conv1 = GCNConv(self.data.num_features, self.p.gcn_dim, cached=True)
+		self.conv2 = GCNConv(self.p.gcn_dim, num_class,  cached=True)
+
+	def forward(self, x, edge_index):
+		x		= F.relu(self.conv1(x, edge_index))
+		x		= F.dropout(x, p=self.p.dropout, training=self.training)
+		x		= self.conv2(x, edge_index)
+		return F.log_softmax(x, dim=1)
+
+
 class Main(object):
 
 	def load_data(self):
@@ -30,17 +45,14 @@ class Main(object):
 		"""
 
 		print("loading data")
-		path		= osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', dataset)
-		dataset		= Planetoid(path, dataset, T.NormalizeFeatures())
+		path		= osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', self.p.data)
+		dataset		= Planetoid(path, self.p.data, T.NormalizeFeatures())
+		self.num_class  = dataset.num_classes
 		self.data	= dataset[0]
 
 
-	def add_model(self, model_name):
-
-		if   model_name == 'kipf_gcn': 	model = KipfGCN()
-		elif model_name == 'syn_gcn':	model = SynGCN()
-		else: raise NotImplementedError
-
+	def add_model(self):
+		model = KipfGCN(self.data, self.num_class, self.p)
 		model.to(self.device)
 		return model
 
@@ -90,9 +102,28 @@ class Main(object):
 	
 
 		self.load_data()
-		self.model        = self.add_model(self.p.model)
+		self.data.to(self.device)
+		self.model        = self.add_model()
 		self.optimizer    = self.add_optimizer(self.model.parameters())
 
+
+	def get_acc(self, logits, y_actual, mask):
+		"""
+		Calculates accuracy
+
+		Parameters
+		----------
+		logits:		Output of the model
+		y_actual: 	Ground truth label of nodes
+		mask: 		Indicates the nodes to be considered for evaluation
+
+		Returns
+		-------
+		accuracy:	Classification accuracy for labeled nodes
+		"""
+
+		y_pred = torch.max(logits, dim=1)[1]
+		return y_pred.eq(y_actual[mask]).sum().item() / mask.sum().item()
 
 	def evaluate(self, sess, split='valid'):
 		"""
@@ -114,7 +145,7 @@ class Main(object):
 
 		return loss, acc
 
-	def run_epoch(self, sess, epoch, shuffle=True):
+	def run_epoch(self, epoch, shuffle=True):
 		"""
 		Runs one epoch of training and evaluation on validation set
 
@@ -132,36 +163,34 @@ class Main(object):
 
 		"""
 
+		t = time.time()
+
+		self.model.train()
 		self.model.train()
 		self.optimizer.zero_grad()
 
-		logits	= self.model(self.data.x, self.data.edge_index)[self.data.train_mask], self.data.y[self.data.train_mask]
-		import pdb; pdb.set_trace()
-		loss	= F.nll_loss().backward()
+		logits		= self.model(self.data.x, self.data.edge_index)[self.data.train_mask]
+		train_loss	= F.nll_loss(logits, self.data.y[self.data.train_mask])
+		train_loss.backward()
 		self.optimizer.step()
 
-		feed_dict = self.create_feed_dict(split='train')
-		feed_dict.update({self.dropout: self.p.dropout})
+		self.model.eval()
+		logits		= self.model(self.data.x, self.data.edge_index)
+		train_acc	= self.get_acc(logits[self.data.train_mask], self.data.y, self.data.train_mask)
+		val_acc		= self.get_acc(logits[self.data.val_mask], self.data.y, self.data.val_mask)
 
-		# Training step
-		_, train_loss, train_acc = sess.run([self.train_op, self.loss, self.accuracy], feed_dict=feed_dict)
-
-		# Validation
-		val_loss, val_acc, _ = self.evaluate(sess, split='valid')
-
-		if acc > self.best_val: 
-			self.best_val		= acc
-			_, self.best_test, _	= self.evaluate(sess, split='test')
+		if val_acc > self.best_val: 
+			self.best_val	= val_acc
+			self.best_test  = self.get_acc(logits[self.data.test_mask], self.data.y, self.data.test_mask)
 
 		print(	"Epoch:", 	'%04d' % (epoch + 1), 
-			"train_loss=", 	"{:.5f}".format(outs[1]),
-			"train_acc=",	"{:.5f}".format(outs[2]), 
-			"val_loss=", 	"{:.5f}".format(cost),
-			"val_acc=", 	"{:.5f}".format(acc), 
+			"train_loss=", 	"{:.5f}".format(train_loss),
+			"train_acc=",	"{:.5f}".format(train_acc), 
+			"val_acc=", 	"{:.5f}".format(val_acc), 
 			"time=", 	"{:.5f}".format(time.time() - t))
 
 
-	def fit(self, sess):
+	def fit(self):
 		"""
 		Trains the model and finally evaluates on test
 
@@ -172,16 +201,15 @@ class Main(object):
 		Returns
 		-------
 		"""
-		self.saver		= tf.train.Saver()
-		self.save_path		= os.path.join(self.p.save_dir, 'best_int_avg')
+		self.save_path = os.path.join(self.p.save_dir, 'best_int_avg')
 
 		self.best_val, self.best_test = 0.0, 0.0
 
 		if self.p.restore:
-			self.saver.restore(sess, self.save_path)
+			self.saver.restore(self.save_path)
 
 		for epoch in range(self.p.max_epochs):
-			train_loss = self.run_epoch(sess, epoch)
+			train_loss = self.run_epoch(epoch)
 
 		print('Best Valid: {}, Best Test: {}'.format(self.best_val, self.best_test))
 
@@ -204,7 +232,6 @@ if __name__== "__main__":
 	# GCN-related params
 	parser.add_argument('--gcn_dim',  	dest="gcn_dim",     	default=16,     type=int,       help='GCN hidden dimension')
 	parser.add_argument('--drop',     	dest="dropout",        	default=0.5,    type=float,     help='Dropout for full connected layer')
-	parser.add_argument('--gcn_layer',	dest="gcn_layer",     	default=1,      type=int,       help='Number of layers in GCN over dependency tree')
 
 	parser.add_argument('--restore',  	dest="restore",        	action='store_true',        	help='Restore from the previous best saved model')
 	parser.add_argument('--log_dir',   	dest="log_dir",		default='./log/',   	   	help='Log directory')

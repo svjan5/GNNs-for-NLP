@@ -301,17 +301,17 @@ class KipfGCN(object):
 		_, train_loss, train_acc = sess.run([self.train_op, self.loss, self.accuracy], feed_dict=feed_dict)
 
 		# Validation
-		val_loss, val_acc, _ = self.evaluate(sess, split='valid')
+		val_loss, val_acc = self.evaluate(sess, split='valid')
 
-		if acc > self.best_val: 
-			self.best_val		= acc
-			_, self.best_test, _	= self.evaluate(sess, split='test')
+		if val_acc > self.best_val: 
+			self.best_val		= val_acc
+			_, self.best_test	= self.evaluate(sess, split='test')
 
 		print(	"Epoch:", 	'%04d' % (epoch + 1), 
-			"train_loss=", 	"{:.5f}".format(outs[1]),
-			"train_acc=",	"{:.5f}".format(outs[2]), 
-			"val_loss=", 	"{:.5f}".format(cost),
-			"val_acc=", 	"{:.5f}".format(acc), 
+			"train_loss=", 	"{:.5f}".format(train_loss),
+			"train_acc=",	"{:.5f}".format(train_acc), 
+			"val_loss=", 	"{:.5f}".format(val_loss),
+			"val_acc=", 	"{:.5f}".format(val_acc), 
 			"time=", 	"{:.5f}".format(time.time() - t))
 
 
@@ -357,7 +357,6 @@ if __name__== "__main__":
 	# GCN-related params
 	parser.add_argument('--gcn_dim',  	dest="gcn_dim",     	default=16,     type=int,       help='GCN hidden dimension')
 	parser.add_argument('--drop',     	dest="dropout",        	default=0.5,    type=float,     help='Dropout for full connected layer')
-	parser.add_argument('--gcn_layer',	dest="gcn_layer",     	default=1,      type=int,       help='Number of layers in GCN over dependency tree')
 
 	parser.add_argument('--restore',  	dest="restore",        	action='store_true',        	help='Restore from the previous best saved model')
 	parser.add_argument('--log_dir',   	dest="log_dir",		default='./log/',   	   	help='Log directory')
