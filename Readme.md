@@ -2,7 +2,6 @@
 
 [![Conference](http://img.shields.io/badge/EMNLP-2019-4b44ce.svg)](https://www.emnlp-ijcnlp2019.org/program/tutorials/)
 [![Slides](http://img.shields.io/badge/slides-pdf-red.svg)]()
-[![Supplementary](http://img.shields.io/badge/supplementary-arxiv.xxxx.xxxx-B31B1B.svg)]()
 
 The repository contains code examples for [GNN-for-NLP](https://www.emnlp-ijcnlp2019.org/program/tutorials/) tutorial at [EMNLP 2019](https://www.emnlp-ijcnlp2019.org/).
 
@@ -15,7 +14,7 @@ The repository contains code examples for [GNN-for-NLP](https://www.emnlp-ijcnlp
 
 ### TensorFlow Examples:
 
-* `kipf_gcn.py` contains simplified implementation of first-order approximation of GCN model proposed by [Kipf et. al. (2016)](https://arxiv.org/abs/1609.02907)
+* `tf_gcn.py` contains simplified implementation of first-order approximation of GCN model proposed by [Kipf et. al. (2016)](https://arxiv.org/abs/1609.02907)
 * Extensions of the same implementation for different problems:
   * Relation Extraction: [RESIDE](https://github.com/malllabiisc/RESIDE)
   * GCNs for Word Embeddings: [WordGCN](https://github.com/malllabiisc/WordGCN)
@@ -23,3 +22,10 @@ The repository contains code examples for [GNN-for-NLP](https://www.emnlp-ijcnlp
 
 ### PyTorch Examples:
 
+* `pytorch_gcn.py` is pytorch equivalent of `tf_gcn.py` implemented using [pytorch-geometric](https://github.com/rusty1s/pytorch_geometric). 
+* Several other examples are available [here](https://github.com/rusty1s/pytorch_geometric/tree/master/examples). 
+
+### References:
+
+* A short write on origin of Graph Neural Networks 
+* [GNN recent papers](https://github.com/naganandy/graph-based-deep-learning-literature) .
