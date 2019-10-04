@@ -1,16 +1,12 @@
 # Graph Neural Networks for Natural Language Processing
 
 [![Conference](http://img.shields.io/badge/EMNLP-2019-4b44ce.svg)](https://www.emnlp-ijcnlp2019.org/program/tutorials/)
-
 [![Slides](http://img.shields.io/badge/slides-pdf-red.svg)]()
-
 [![Supplementary](http://img.shields.io/badge/supplementary-arxiv.xxxx.xxxx-B31B1B.svg)]()
-
-
 
 The repository contains code examples for [GNN-for-NLP](https://www.emnlp-ijcnlp2019.org/program/tutorials/) tutorial at [EMNLP 2019](https://www.emnlp-ijcnlp2019.org/).
 
-
+<img align="right"  src="./graph.jpeg">
 
 ### Dependencies
 
