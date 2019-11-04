@@ -243,9 +243,6 @@ if __name__== "__main__":
 	np.random.seed(args.seed)
 	torch.manual_seed(args.seed)
 
-	# Set GPU to use
-	set_gpu(args.gpu)
-
 	# Create Model
 	model = Main(args)
 	model.fit()
