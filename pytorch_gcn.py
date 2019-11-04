@@ -238,16 +238,14 @@ if __name__== "__main__":
 	if not args.restore: args.name = args.name + '_' + time.strftime("%d_%m_%Y") + '_' + time.strftime("%H:%M:%S")
 
 	# Set seed
-	tf.set_random_seed(args.seed)
 	np.random.seed(args.seed)
+	np.random.seed(args.seed)
+	torch.manual_seed(args.seed)
 
 	# Set GPU to use
 	set_gpu(args.gpu)
 
 	# Create Model
-	np.random.seed(args.seed)
-	torch.manual_seed(args.seed)
-
 	model = Main(args)
 	model.fit()
 	print('Model Trained Successfully!!')
