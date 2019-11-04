@@ -28,5 +28,5 @@ The repository contains code examples for [GNN-for-NLP](https://www.emnlp-ijcnlp
 
 ### References:
 
-* Short writeup on theory behind Graph Convolutional Networks [[Pdf](https://shikhar-vashishth.github.io/assets/pdf/phd_thesis.pdf) (refer Chapter-2)].
+* Short writeup on theory behind Graph Convolutional Networks [[Pdf]](https://shikhar-vashishth.github.io/assets/pdf/phd_thesis.pdf) (refer Chapter-2).
 * [GNN recent papers](https://github.com/naganandy/graph-based-deep-learning-literature).
