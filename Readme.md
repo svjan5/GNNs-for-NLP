@@ -4,7 +4,9 @@
 [![Slides](http://img.shields.io/badge/slides-pdf-red.svg)](https://shikhar-vashishth.github.io/assets/pdf/emnlp19_tutorial.pdf)
 [![Colab](http://img.shields.io/badge/colab-run-yellow.svg)](https://drive.google.com/drive/u/0/folders/1ljM-k34uYyI3Sp3IYGiZp_i5X1TgaYl1)
 
-The repository contains code examples for [GNN-for-NLP](https://www.emnlp-ijcnlp2019.org/program/tutorials/) tutorial at [EMNLP 2019](https://www.emnlp-ijcnlp2019.org/). Slides can be downloaded from [here](https://shikhar-vashishth.github.io/assets/pdf/emnlp19_tutorial.pdf). 
+The repository contains code examples for [GNN-for-NLP](https://www.emnlp-ijcnlp2019.org/program/tutorials/) tutorial at [EMNLP 2019](https://www.emnlp-ijcnlp2019.org/). 
+
+Slides can be downloaded from [here](https://shikhar-vashishth.github.io/assets/pdf/emnlp19_tutorial.pdf). 
 
 <img align="right"  src="./graph.jpeg">
 
