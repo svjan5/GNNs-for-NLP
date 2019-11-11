@@ -30,5 +30,5 @@ Slides can be downloaded from [here](https://shikhar-vashishth.github.io/assets/
 
 ### Additional Resources:
 
-* Short writeup on theory behind Graph Convolutional Networks [[Pdf]](https://shikhar-vashishth.github.io/assets/pdf/phd_thesis.pdf) (refer Chapter-2).
+* Short writeup on theory behind Graph Convolutional Networks [[Pdf]](https://arxiv.org/abs/1911.03042) (refer Chapter-2).
 * [GNN recent papers](https://github.com/naganandy/graph-based-deep-learning-literature).
