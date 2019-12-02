@@ -32,3 +32,21 @@ Slides can be downloaded from [here](https://shikhar-vashishth.github.io/assets/
 
 * Short writeup on theory behind Graph Convolutional Networks [[Pdf]](https://arxiv.org/abs/1911.03042) (refer Chapter-2).
 * [GNN recent papers](https://github.com/naganandy/graph-based-deep-learning-literature).
+
+### Citation:
+Please cite the tutorial if you use this code in your work.
+
+```bibtex
+@inproceedings{vashishth-etal-2019-graph,
+    title = "Graph-based Deep Learning in Natural Language Processing",
+    author = "Vashishth, Shikhar  and
+      Yadati, Naganand  and
+      Talukdar, Partha",
+    booktitle = "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP): Tutorial Abstracts",
+    month = nov,
+    year = "2019",
+    address = "Hong Kong, China",
+    publisher = "Association for Computational Linguistics",
+    abstract = "This tutorial aims to introduce recent advances in graph-based deep learning techniques such as Graph Convolutional Networks (GCNs) for Natural Language Processing (NLP). It provides a brief introduction to deep learning methods on non-Euclidean domains such as graphs and justifies their relevance in NLP. It then covers recent advances in applying graph-based deep learning methods for various NLP tasks, such as semantic role labeling, machine translation, relationship extraction, and many more.",
+}
+```
