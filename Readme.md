@@ -1,7 +1,7 @@
 # Graph Neural Networks for Natural Language Processing
 
 [![Conference](http://img.shields.io/badge/EMNLP-2019-4b44ce.svg)](https://www.emnlp-ijcnlp2019.org/program/tutorials/)
-[![Conference](http://img.shields.io/badge/CODS-COMAD-2020-4b44ce.svg)](https://cods-comad.in/)
+[![Conference](http://img.shields.io/badge/CODS_COMAD-2020-4b44ce.svg)](https://cods-comad.in/)
 [![Slides](http://img.shields.io/badge/slides-pdf-red.svg)](https://shikhar-vashishth.github.io/assets/pdf/emnlp19_tutorial.pdf)
 [![Colab](http://img.shields.io/badge/colab-run-yellow.svg)](https://drive.google.com/drive/u/0/folders/1ljM-k34uYyI3Sp3IYGiZp_i5X1TgaYl1)
 
