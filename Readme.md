@@ -35,7 +35,6 @@ Slides can be downloaded from [here](https://shikhar-vashishth.github.io/assets/
 * [GNN recent papers](https://github.com/naganandy/graph-based-deep-learning-literature).
 
 ### Citation:
-Please cite the tutorial if you use this code in your work.
 
 ```bibtex
 @inproceedings{vashishth-etal-2019-graph,
